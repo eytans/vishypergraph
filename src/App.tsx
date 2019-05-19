@@ -4,7 +4,7 @@ import {Container, Row, Col, Form, Button} from "react-bootstrap";
 import {HyperGraph, Node, HyperEdge, ID} from './HyperGraph'
 import { generate } from 'pegjs'
 import Tracer from 'pegjs-backtrace'
-import {number} from "prop-types";
+import {ExecException} from "child_process";
 
 interface AppState {
   nodes: Node[];
@@ -23,23 +23,28 @@ export class App extends Component<Readonly<{}>, AppState> {
     }
   }
 
-  parseText(text: string): {nodes: Node[], edges: HyperEdge[]} {
+  parseText(text: string, isPattern?: boolean): any {
     let parser = generate(`
-    expression = exp:smallerexpression "{" exps:expressionlist "}" { return ["{}", exp, exps] } 
+    expression = exp:smallerexpression "{" exps:expressionlist "}" { return {type: 'tree', root:exp, subtrees: exps} } 
     / smallerexpression
     
-    smallerexpression = root:identifier _ "(" exps:expressionlist ")" { return [root, exps] }
-    / number 
-    / identifier
+    smallerexpression = root:identifier _ "(" exps:expressionlist ")" {
+      var res = {type: 'node'};
+      res[root['value']] = exps;
+      return  res;
+    }
+    / number
+    / identifier 
     
     expressionlist =  _ exp:expression? exps:( _ "," _ expression _ )* {
         if (exp === null) return [];
+        else if (exps.length === 0) return exp;
         else return [exp].concat(exps.map(function(a){ return a[3] }))
       }
     
-    identifier = lets:([^(),])+ {return lets.join("")}
+    identifier = lets:([^(),])+ {return {type: 'identifier', value:lets.join("")}}
     
-    number = digits:[0-9]+ {return parseInt(digits.join(""), 10)}
+    number = digits:[0-9]+ {return {type: 'number', value:parseInt(digits.join(""), 10)}}
     
     _  = [ \\t\\r\\n]*`);
     let tracer = new Tracer(text);
@@ -51,49 +56,89 @@ export class App extends Component<Readonly<{}>, AppState> {
       console.log(tracer.getBacktraceString());
     }
     console.log(tree);
-    var edges = tree[1][0][1].map(function(e: Array<any>) {
-      var edge = e[1];
-      return new HyperEdge(
-        edge[1][1][0][1][0],
-        edge[0][1].concat(edge[2][1].map(function(l: any){
-          return l[1][0]
-        })).map((x: any) => new ID(x))
-    )
+    return tree;
+  }
+
+  getEdges(tree: any): Array<any> {
+    // hypergraph(set(h,h,...))
+    var graphkey: string|undefined = Object.keys(tree).find(function(element: string) {
+      return element.toLowerCase().includes('hypergraph');
     });
-    var nodes = new Map<number, Node>(edges.flatMap(function (e: HyperEdge) {
-      return e.sources.map(f => [f.id, new Node(f)])
-    }));
-    console.log(edges);
-    console.log(nodes);
-    return {nodes: Array.from(nodes.values()), edges: edges}
+
+    if (graphkey === undefined) {
+      throw new Error('bla');
+    }
+
+    console.log(graphkey);
+    return  tree[graphkey]['Set'].map((e: any) => e['HyperEdge']);
+  }
+
+  extractId(hyperTermId: any) {
+    var label = null;
+    var value = -9999;
+    if (Object.keys(hyperTermId).includes('Explicit')) {
+      value = hyperTermId['Explicit']['HyperTermId']['value'];
+      label = 'Explicit';
+    } else if (Object.keys(hyperTermId).includes('Hole')) {
+      value = hyperTermId['Hole']['value'];
+      label = 'Hole';
+    } else if (Object.keys(hyperTermId).includes('Ignore')){
+      label = 'Ignore';
+    }
+    else return new ID(hyperTermId['HyperTermId']['value']);
+
+    return new ID(value, label + '(' + value + ')');
+  }
+
+  extractIdentifier(hyperTermIdentifier: any) {
+    if (Object.keys(hyperTermIdentifier).includes('Explicit')) {
+      return hyperTermIdentifier['Explicit']['HyperTermIdentifier']['Identifier'][0]['value'];
+    } else if (Object.keys(hyperTermIdentifier).includes('Hole')) {
+      return "Hole(" + hyperTermIdentifier['Hole']['value'] + ")";
+    } else if (Object.keys(hyperTermIdentifier).includes('Ignore')) {
+      return  'Ignore';
+    } else return hyperTermIdentifier['HyperTermIdentifier']['Identifier'][0]['value'];
+  }
+
+  parseEdge(edge: any) {
+    var eType = this.extractIdentifier(edge[1]);
+    var target = [this.extractId(edge[0])];
+    var sources = edge[2]['List'];
+    if (sources === undefined) sources = [];
+    else if (Array.isArray(sources))
+      sources = sources.map(this.extractId);
+    else sources = [this.extractId(sources)];
+    return new HyperEdge(eType.toString(), target.concat(sources));
   }
 
   handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     let text = this.textRef.current.value;
     if (typeof text === 'string') {
-      var {nodes, edges} = this.parseText(text);
-      this.setState({nodes: nodes, edges: edges})
+      var tree = this.parseText(text);
+      var edges = this.getEdges(tree).map(e => this.parseEdge(e));
+      var nodes = new Map<number, Node>(edges.flatMap(function (e: HyperEdge) {
+        console.log(e.sources);
+        return e.sources.map(f => [f.id, new Node(f)])
+      }));
+      console.log(edges);
+      console.log(nodes);
+      this.setState({nodes: Array.from(nodes.values()), edges: edges})
     }
   }
 
   render() {
-    return <Container style={{height: '100vh', 'minHeight': '100vh'}}>
-      <Form as={Row}>
-        <Form.Group controlId="hypergraphtextform">
-          <Col>
-            <Form.Control ref={this.textRef} style={{width: '95vh'}} type="text" placeholder="Enter hyper graph text"/>
-          </Col>
-          <Col>
-              <Button onClick={this.handleClick.bind(this)}>Draw!</Button>
-          </Col>
-        </Form.Group>
-      </Form>
+    return (
+    <Container style={{height: '100vh', 'minHeight': '100vh'}}>
+      <Row>
+        <Col><Form.Control ref={this.textRef} style={{width: '50vh'}} type="text" placeholder="Enter hyper graph text"/></Col>
+        <Col><Button onClick={this.handleClick.bind(this)}>Draw Graph!</Button></Col>
+      </Row>
       <Row style={{height: '100%'}}>
         <HyperGraph
             edges={this.state.edges}
             nodes={this.state.nodes}/>
       </Row>
-    </Container>
+    </Container>);
   }
 }
 

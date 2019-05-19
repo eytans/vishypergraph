@@ -14,12 +14,18 @@ interface VisEdge {
 
 export class ID {
     id: number;
-    constructor(id: number) {
+    label?: string;
+
+    constructor(id: number, label?: string) {
         this.id = id;
+        this.label = label;
     }
 
     toString() {
-        return this.id.toString();
+        if (this.label == null) {
+            return this.id.toString();
+        }
+        return this.label;
     }
 }
 
@@ -86,19 +92,9 @@ export class HyperGraph extends Component<HyperGraphProps, any> {
     }
 
 
+
     render() {
         var maxId = Math.max(...this.props.nodes.map((value: Node) => { return value.id.id; }));
-
-        // var origNodes = new Map<ID, VisNode>(
-        //     this.props.nodes.map((value, index, array) => {
-        //         return [value.id, value.toVisNode()];
-        //     })
-        // );
-
-        // if (!this.props.edges.every(value => value.sources.every(value1 => origNodes.has(value1)))) {
-        //     console.error("Some edge has a node ID which was not in nodes");
-        //     throw Error("Edge missing a node in hypergraph input");
-        // }
 
         var nodes: VisNode[] = this.props.nodes.map((value, index, array) => value.toVisNode());
         var edges: VisEdge[] = [];
