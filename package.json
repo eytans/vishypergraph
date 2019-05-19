@@ -4,13 +4,21 @@
   "private": true,
   "dependencies": {
     "@types/jest": "24.0.12",
+    "@types/lodash": "^4.14.129",
     "@types/node": "12.0.0",
+    "@types/pegjs": "^0.10.1",
     "@types/react": "16.8.17",
     "@types/react-dom": "16.8.4",
+    "bootstrap": "^4.3.1",
+    "lodash": "^4.17.11",
+    "pegjs": "^0.10.0",
+    "pegjs-backtrace": "^0.2.0",
     "react": "^16.8.6",
+    "react-bootstrap": "^1.0.0-beta.8",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
-    "typescript": "3.4.5"
+    "typescript": "3.4.5",
+    "vis-react": "^0.4.5"
   },
   "scripts": {
     "start": "react-scripts start",
