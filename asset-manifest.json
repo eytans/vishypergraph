@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/vishypergraph/static/css/main.19393e92.chunk.css",
+    "main.js": "/vishypergraph/static/js/main.1fb43318.chunk.js",
+    "main.js.map": "/vishypergraph/static/js/main.1fb43318.chunk.js.map",
+    "runtime~main.js": "/vishypergraph/static/js/runtime~main.fd3f3684.js",
+    "runtime~main.js.map": "/vishypergraph/static/js/runtime~main.fd3f3684.js.map",
+    "static/js/2.504d6762.chunk.js": "/vishypergraph/static/js/2.504d6762.chunk.js",
+    "static/js/2.504d6762.chunk.js.map": "/vishypergraph/static/js/2.504d6762.chunk.js.map",
+    "index.html": "/vishypergraph/index.html",
+    "precache-manifest.4907f58825398dc3d421b08a7fdc173e.js": "/vishypergraph/precache-manifest.4907f58825398dc3d421b08a7fdc173e.js",
+    "service-worker.js": "/vishypergraph/service-worker.js",
+    "static/css/main.19393e92.chunk.css.map": "/vishypergraph/static/css/main.19393e92.chunk.css.map"
+  }
+}
