@@ -2,6 +2,7 @@
   "name": "vishypergraph",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://eytans.github.io/vishypergraph",
   "dependencies": {
     "@types/jest": "24.0.12",
     "@types/lodash": "^4.14.129",
@@ -11,6 +12,7 @@
     "@types/react-dom": "16.8.4",
     "@types/reactstrap": "^8.0.1",
     "bootstrap": "^4.3.1",
+    "gh-pages": "^2.0.1",
     "lodash": "^4.17.11",
     "pegjs": "^0.10.0",
     "pegjs-backtrace": "^0.2.0",

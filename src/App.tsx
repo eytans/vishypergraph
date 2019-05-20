@@ -70,7 +70,8 @@ export class App extends Component<Readonly<{}>, AppState> {
     }
 
     console.log(graphkey);
-    return  tree[graphkey]['Set'].map((e: any) => e['HyperEdge']);
+    if (Array.isArray(tree[graphkey]['Set'])) return tree[graphkey]['Set'].map((e: any) => e['HyperEdge']);
+    return [tree[graphkey]['Set']['HyperEdge']];
   }
 
   extractId(hyperTermId: any) {
@@ -113,7 +114,7 @@ export class App extends Component<Readonly<{}>, AppState> {
 
   handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     let text = this.textRef.current.value;
-    if (typeof text === 'string') {
+    if (text === 'string') {
       var tree = this.parseText(text);
       var edges = this.getEdges(tree).map(e => this.parseEdge(e));
       var nodes = new Map<number, Node>(edges.flatMap(function (e: HyperEdge) {
@@ -130,8 +131,8 @@ export class App extends Component<Readonly<{}>, AppState> {
     return (
     <Container style={{height: '100vh', 'minHeight': '100vh'}}>
       <Row>
-        <Col><Form.Control ref={this.textRef} style={{width: '50vh'}} type="text" placeholder="Enter hyper graph text"/></Col>
-        <Col><Button onClick={this.handleClick.bind(this)}>Draw Graph!</Button></Col>
+        <Col><Button onClick={this.handleClick.bind(this)}>Draw Graph!</Button>
+        <Form.Control ref={this.textRef} style={{width: '75vh'}} type="text" placeholder="Enter hyper graph text"/></Col>
       </Row>
       <Row style={{height: '100%'}}>
         <HyperGraph
