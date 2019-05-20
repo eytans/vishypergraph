@@ -113,8 +113,9 @@ export class App extends Component<Readonly<{}>, AppState> {
   }
 
   handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    console.log("You clicked!!!");
     let text = this.textRef.current.value;
-    if (text === 'string') {
+    if (typeof text === 'string') {
       var tree = this.parseText(text);
       var edges = this.getEdges(tree).map(e => this.parseEdge(e));
       var nodes = new Map<number, Node>(edges.flatMap(function (e: HyperEdge) {
