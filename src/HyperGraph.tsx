@@ -75,12 +75,12 @@ const optionsDefault = {
 };
 
 export class HyperGraph extends Component<HyperGraphProps, any> {
-    private options: any;
-    private hasTarget: boolean;
+    private readonly options: any;
+    private readonly hasTarget: boolean;
 
     private events = {
         select: function(event: any) {
-            var { nodes, edges } = event;
+            let { nodes, edges } = event;
         }
     };
 
@@ -94,14 +94,14 @@ export class HyperGraph extends Component<HyperGraphProps, any> {
 
 
     render() {
-        var maxId = Math.max(...this.props.nodes.map((value: Node) => { return value.id.id; }));
+        let maxId = Math.max(...this.props.nodes.map((value: Node) => { return value.id.id; }));
 
-        var nodes: VisNode[] = this.props.nodes.map((value, index, array) => value.toVisNode());
-        var edges: VisEdge[] = [];
+        let nodes: VisNode[] = this.props.nodes.map((value, index, array) => value.toVisNode());
+        let edges: VisEdge[] = [];
 
-        for (var edge of this.props.edges) {
+        for (let edge of this.props.edges) {
             maxId += 1;
-            var newNode = new Node(new ID(maxId), edge.type, "box");
+            let newNode = new Node(new ID(maxId), edge.type, "box");
             nodes.push(newNode.toVisNode());
             edges = edges.concat(edge.sources.map((value: ID, index: number) => {
                 if (this.hasTarget && index === 0) {
@@ -111,7 +111,7 @@ export class HyperGraph extends Component<HyperGraphProps, any> {
             }));
         }
 
-        var graph = {
+        let graph = {
             nodes: nodes,
             edges: edges
         };

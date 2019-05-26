@@ -50,7 +50,7 @@ export class App extends Component<Readonly<{}>, AppState> {
     
     _  = [ \\t\\r\\n]*`);
     let tracer = new Tracer(text);
-    var tree = null;
+    let tree = null;
     try {
       tree = parser.parse(text, {tracer: tracer});
     } catch (e) {
@@ -63,7 +63,7 @@ export class App extends Component<Readonly<{}>, AppState> {
 
   getEdges(tree: any): Array<any> {
     // hypergraph(set(h,h,...))
-    var graphkey: string|undefined = Object.keys(tree).find(function(element: string) {
+    let graphkey: string|undefined = Object.keys(tree).find(function(element: string) {
       return element.toLowerCase().includes('hypergraph');
     });
 
@@ -77,8 +77,8 @@ export class App extends Component<Readonly<{}>, AppState> {
   }
 
   extractId(hyperTermId: any) {
-    var label = null;
-    var value = -9999;
+    let label = null;
+    let value = -9999;
     if (Object.keys(hyperTermId).includes('Explicit')) {
       value = hyperTermId['Explicit']['HyperTermId']['value'];
       label = 'Explicit';
@@ -105,9 +105,9 @@ export class App extends Component<Readonly<{}>, AppState> {
   }
 
   parseEdge(edge: any) {
-    var eType = this.extractIdentifier(edge[1]);
-    var target = [this.extractId(edge[0])];
-    var sources = edge[2]['List'];
+    let eType = this.extractIdentifier(edge[1]);
+    let target = [this.extractId(edge[0])];
+    let sources = edge[2]['List'];
     if (sources === undefined) sources = [];
     else if (Array.isArray(sources))
       sources = sources.map(this.extractId);
@@ -116,17 +116,14 @@ export class App extends Component<Readonly<{}>, AppState> {
   }
 
   handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    console.log("You clicked!!!");
     let text = this.textRef.current.value;
     if (typeof text === 'string') {
-      var tree = this.parseText(text);
-      var edges = this.getEdges(tree).map(e => this.parseEdge(e));
-      var nodes = new Map<number, Node>(edges.flatMap(function (e: HyperEdge) {
+      let tree = this.parseText(text);
+      let edges = this.getEdges(tree).map(e => this.parseEdge(e));
+      let nodes = new Map<number, Node>(edges.flatMap(function (e: HyperEdge) {
         console.log(e.sources);
         return e.sources.map(f => [f.id, new Node(f)])
       }));
-      console.log(edges);
-      console.log(nodes);
       this.setState({nodes: Array.from(nodes.values()), edges: edges})
     }
   }
