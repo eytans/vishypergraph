@@ -4,7 +4,6 @@ import {Container, Row, Col, Form, Button} from "react-bootstrap";
 import {HyperGraph, Node, HyperEdge, ID} from './HyperGraph'
 import { generate } from 'pegjs'
 import Tracer from 'pegjs-backtrace'
-import {ExecException} from "child_process";
 
 interface AppState {
   nodes: Node[];
@@ -34,7 +33,8 @@ export class App extends Component<Readonly<{}>, AppState> {
       return  res;
     }
     / number
-    / identifier 
+    / identifier
+    / literal
     
     expressionlist =  _ exp:expression? exps:( _ "," _ expression _ )* {
         if (exp === null) return [];
@@ -42,9 +42,11 @@ export class App extends Component<Readonly<{}>, AppState> {
         else return [exp].concat(exps.map(function(a){ return a[3] }))
       }
     
-    identifier = lets:([^(),])+ {return {type: 'identifier', value:lets.join("")}}
+    identifier = lets:([^(),"])+ {return {type: 'identifier', value:lets.join("")}}
     
     number = digits:[0-9]+ {return {type: 'number', value:parseInt(digits.join(""), 10)}}
+    
+    literal = '"' lets:(!'"' .)* '"' {return {type: 'literal', value: lets.map(x => x[1]).join("")}}
     
     _  = [ \\t\\r\\n]*`);
     let tracer = new Tracer(text);
@@ -93,7 +95,8 @@ export class App extends Component<Readonly<{}>, AppState> {
 
   extractIdentifier(hyperTermIdentifier: any) {
     if (Object.keys(hyperTermIdentifier).includes('Explicit')) {
-      return hyperTermIdentifier['Explicit']['HyperTermIdentifier']['Identifier'][0]['value'];
+      var literal = hyperTermIdentifier['Explicit']['HyperTermIdentifier']['Identifier'][0];
+      return literal['value'];
     } else if (Object.keys(hyperTermIdentifier).includes('Hole')) {
       return "Hole(" + hyperTermIdentifier['Hole']['value'] + ")";
     } else if (Object.keys(hyperTermIdentifier).includes('Ignore')) {
