@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="98549c30-2fd6-4f48-bc95-7c19fb5276aa" name="Default Changelist" comment="Fixed problem if identifier string is peg parsable">
+    <list default="true" id="98549c30-2fd6-4f48-bc95-7c19fb5276aa" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
     </list>
@@ -19,8 +19,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/App.tsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="504">
-              <caret line="48" column="98" selection-start-line="48" selection-start-column="98" selection-end-line="48" selection-end-column="98" />
+            <state relative-caret-position="456">
+              <caret line="90" column="39" lean-forward="true" selection-start-line="90" selection-start-column="39" selection-end-line="90" selection-end-column="39" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -84,6 +84,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -100,7 +101,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -161,7 +161,10 @@
       <workItem from="1557744979204" duration="20766000" />
       <workItem from="1557902447906" duration="28387000" />
       <workItem from="1558335872975" duration="3151000" />
-      <workItem from="1558866906793" duration="3857000" />
+      <workItem from="1558866906793" duration="3993000" />
+      <workItem from="1559567953600" duration="900000" />
+      <workItem from="1560326051553" duration="4000" />
+      <workItem from="1560413523797" duration="1485000" />
     </task>
     <task id="LOCAL-00001" summary="Finished website">
       <created>1558266701691</created>
@@ -198,17 +201,24 @@
       <option name="project" value="LOCAL" />
       <updated>1558339212496</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Fixed problem if identifier string is peg parsable">
+      <created>1558875661599</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1558875661599</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="56161000" />
+    <option name="totallyTimeSpent" value="58686000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1273" y="0" width="1293" height="1407" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.27070063" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.27070063" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -224,7 +234,7 @@
       <window_info anchor="bottom" id="GraphQL" order="9" />
       <window_info anchor="bottom" id="TypeScript" order="10" weight="0.3296" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="12" weight="0.3288" />
+      <window_info anchor="bottom" id="Terminal" order="12" weight="0.3282626" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -239,7 +249,8 @@
     <MESSAGE value="Updated to host on githubio" />
     <MESSAGE value="Updated to host on githubio - fix scripts" />
     <MESSAGE value="Fixed click condition" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed click condition" />
+    <MESSAGE value="Fixed problem if identifier string is peg parsable" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed problem if identifier string is peg parsable" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/@types/dir-obj/index.d.ts" />
@@ -292,13 +303,6 @@
         <state relative-caret-position="-576" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="9" column="30" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/App.test.tsx">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -310,11 +314,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/App.tsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="48" column="98" selection-start-line="48" selection-start-column="98" selection-end-line="48" selection-end-column="98" />
+        <state relative-caret-position="456">
+          <caret line="90" column="39" lean-forward="true" selection-start-line="90" selection-start-column="39" selection-end-line="90" selection-end-column="39" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="9" column="30" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
         </state>
       </provider>
     </entry>

@@ -83,12 +83,14 @@ export class App extends Component<Readonly<{}>, AppState> {
       value = hyperTermId['Explicit']['HyperTermId']['value'];
       label = 'Explicit';
     } else if (Object.keys(hyperTermId).includes('Hole')) {
-      value = hyperTermId['Hole']['value'];
+      value = -hyperTermId['Hole']['value'];
       label = 'Hole';
     } else if (Object.keys(hyperTermId).includes('Ignore')){
       label = 'Ignore';
-    }
-    else return new ID(hyperTermId['HyperTermId']['value']);
+    } else if (Object.keys(hyperTermId).includes('Repetition')) {
+      value = hyperTermId['Repetition'][1]['value'];
+      label = 'Repetition';
+    } else return new ID(hyperTermId['HyperTermId']['value']);
 
     return new ID(value, label + '(' + value + ')');
   }
