@@ -5,7 +5,7 @@ interface VisNode {
     id: number;
     label: string;
     shape?: string;
-    color?: string;
+    color?: string | {background: string, border: string};
 }
 
 interface VisEdge {
@@ -34,9 +34,9 @@ export class Node {
     id: ID;
     literal?: string;
     shape?: string;
-    color: string;
+    color: string | {background: string, border: string};
 
-    constructor(id: ID, literal?: string, shape = "ellipse", color = "#80b3ff") {
+    constructor(id: ID, literal?: string, shape = "ellipse", color: string | {background: string, border: string} = {background: "#80b3ff", border: "black"}) {
         this.id = id;
         this.literal = literal;
         this.shape = shape;
@@ -126,14 +126,24 @@ export class HyperGraph extends Component<HyperGraphProps, any> {
 
         for (let edge of this.props.edges) {
             maxId += 1;
-            let newNode = new Node(new ID(maxId), edge.type, "box", "#88cc00");
+
+            let color: string = "#88cc00";
+            console.log(edge.sources.length);
+            if (edge.sources.length === 1)
+                color = 'pink';
+            if (edge.sources.length === 1 && edge.type.toLowerCase().includes('anchor'))
+                color = 'thistle';
+            console.log(color);
+
+            let newNode = new Node(new ID(maxId), edge.type, "box", {background: color, border: 'black'});
             nodes.push(newNode.toVisNode());
+
             edges = edges.concat(edge.sources.map((value: ID, index: number) => {
                 if (this.hasTarget && edge.hasTarget && index === 0) {
-                    return {to: value.id, from: newNode.id.id}
+                    return {to: value.id, from: newNode.id.id, color: color}
                 } else if (!this.hasTarget || !edge.hasTarget) {
-                    return {from: value.id, to: newNode.id.id, label: "arg " + (index + 1)}
-                } else return {from: value.id, to: newNode.id.id, label: "arg " + index}
+                    return {from: value.id, to: newNode.id.id, label: "arg " + (index + 1), color: color}
+                } else return {from: value.id, to: newNode.id.id, label: "arg " + index, color: color}
             }));
         }
 
