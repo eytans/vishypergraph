@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="98549c30-2fd6-4f48-bc95-7c19fb5276aa" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/HyperGraph.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/HyperGraph.tsx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -91,7 +90,8 @@
       <workItem from="1565596067979" duration="36000" />
       <workItem from="1565596115231" duration="2935000" />
       <workItem from="1566811956196" duration="599000" />
-      <workItem from="1570692146630" duration="1252000" />
+      <workItem from="1570692146630" duration="1744000" />
+      <workItem from="1570693972092" duration="733000" />
     </task>
     <task id="LOCAL-00001" summary="Finished website">
       <created>1558266701691</created>
@@ -142,7 +142,14 @@
       <option name="project" value="LOCAL" />
       <updated>1560418419096</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Works with Stream and new rewrite rule">
+      <created>1570693538784</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1570693538784</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -169,7 +176,8 @@
     <MESSAGE value="Fixed click condition" />
     <MESSAGE value="Fixed problem if identifier string is peg parsable" />
     <MESSAGE value="Added support for repetition" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added support for repetition" />
+    <MESSAGE value="Works with Stream and new rewrite rule" />
+    <option name="LAST_COMMIT_MESSAGE" value="Works with Stream and new rewrite rule" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -177,14 +185,7 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/App.tsx</url>
           <line>93</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/App.tsx</url>
-          <line>65</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
