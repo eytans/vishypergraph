@@ -61,7 +61,7 @@ export class App extends Component<Readonly<{}>, AppState> {
     return tree;
   }
 
-  getEdges(tree: any): Array<any> {
+  static getEdges(tree: any): Array<any> {
     // hypergraph(set(h,h,...))
     let graphkey: string|undefined = Object.keys(tree).find(function(element: string) {
       return element.toLowerCase().includes('hypergraph');
@@ -76,7 +76,7 @@ export class App extends Component<Readonly<{}>, AppState> {
     return [tree[graphkey]['Set']['HyperEdge']];
   }
 
-  extractId(hyperTermId: any) {
+  static extractId(hyperTermId: any) {
     let label = null;
     let value = -9999;
     if (Object.keys(hyperTermId).includes('Explicit')) {
@@ -90,12 +90,15 @@ export class App extends Component<Readonly<{}>, AppState> {
     } else if (Object.keys(hyperTermId).includes('Repetition')) {
       value = hyperTermId['Repetition'][1]['value'];
       label = 'Repetition';
+    } else if (Object.keys(hyperTermId).includes('Stream')) {
+      value = hyperTermId['Repetition'][1]['value'];
+      label = 'Repetition';
     } else return new ID(hyperTermId['HyperTermId']['value']);
 
     return new ID(value, label + '(' + value + ')');
   }
 
-  extractIdentifier(hyperTermIdentifier: any) {
+  static extractIdentifier(hyperTermIdentifier: any): string {
     if (Object.keys(hyperTermIdentifier).includes('Explicit')) {
       var literal = hyperTermIdentifier['Explicit']['HyperTermIdentifier']['Identifier'][0];
       return literal['value'];
@@ -106,22 +109,23 @@ export class App extends Component<Readonly<{}>, AppState> {
     } else return hyperTermIdentifier['HyperTermIdentifier']['Identifier'][0]['value'];
   }
 
-  parseEdge(edge: any) {
-    let eType = this.extractIdentifier(edge[1]);
-    let target = [this.extractId(edge[0])];
+  static parseEdge(edge: any) {
+    let eType = App.extractIdentifier(edge[1]);
+    let target = [App.extractId(edge[0])];
     let sources = edge[2]['List'];
     if (sources === undefined) sources = [];
     else if (Array.isArray(sources))
-      sources = sources.map(this.extractId);
-    else sources = [this.extractId(sources)];
-    return new HyperEdge(eType.toString(), target.concat(sources));
+      sources = sources.map(App.extractId);
+    else sources = [App.extractId(sources)];
+    if (eType === "type") return new HyperEdge(eType, sources, false);
+    return new HyperEdge(eType, target.concat(sources));
   }
 
   handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     let text = this.textRef.current.value;
     if (typeof text === 'string') {
       let tree = this.parseText(text);
-      let edges = this.getEdges(tree).map(e => this.parseEdge(e));
+      let edges = App.getEdges(tree).map(e => App.parseEdge(e));
       let nodes = new Map<number, Node>(edges.flatMap(function (e: HyperEdge) {
         console.log(e.sources);
         return e.sources.map(f => [f.id, new Node(f)])
@@ -130,7 +134,22 @@ export class App extends Component<Readonly<{}>, AppState> {
     }
   }
 
+  handleResize = () => {
+    console.log("Trying rerender");
+    this.forceUpdate();
+  };
+
+  componentDidMount() {
+    this.handleResize();
+    window.addEventListener('resize', this.handleResize)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize)
+  }
+
   render() {
+    console.log("rendering app");
     return (
     <Container style={{height: '100vh', 'minHeight': '100vh'}}>
       <Row>

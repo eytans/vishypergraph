@@ -48,10 +48,12 @@ export class Node {
 export class HyperEdge {
     type: string;
     sources: ID[];
+    hasTarget: boolean;
 
-    constructor(type: string, sources: ID[]) {
+    constructor(type: string, sources: ID[], hasTarget: boolean = true) {
         this.type = type;
         this.sources = sources;
+        this.hasTarget = hasTarget;
     }
 }
 
@@ -91,9 +93,22 @@ export class HyperGraph extends Component<HyperGraphProps, any> {
         this.options = options;
     }
 
+    handleResize = () => {
+        console.log("Trying rerender");
+        this.forceUpdate();
+    };
 
+    componentDidMount() {
+        this.handleResize();
+        window.addEventListener('resize', this.handleResize)
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.handleResize)
+    }
 
     render() {
+        console.log("rendering hyper graph");
         let maxId = Math.max(...this.props.nodes.map((value: Node) => { return value.id.id; }));
 
         let nodes: VisNode[] = this.props.nodes.map((value, index, array) => value.toVisNode());
@@ -104,10 +119,13 @@ export class HyperGraph extends Component<HyperGraphProps, any> {
             let newNode = new Node(new ID(maxId), edge.type, "box");
             nodes.push(newNode.toVisNode());
             edges = edges.concat(edge.sources.map((value: ID, index: number) => {
-                if (this.hasTarget && index === 0) {
+                if (this.hasTarget && edge.hasTarget && index === 0) {
                     return {to: value.id, from: newNode.id.id}
                 }
-                return {from: value.id, to: newNode.id.id, label: "arg " + index}
+                else if (!this.hasTarget || !edge.hasTarget) {
+                    return {from: value.id, to: newNode.id.id, label: "arg " + (index + 1)}
+                }
+                else return {from: value.id, to: newNode.id.id, label: "arg " + index}
             }));
         }
 
@@ -116,6 +134,7 @@ export class HyperGraph extends Component<HyperGraphProps, any> {
             edges: edges
         };
 
+        console.log("returning new hyper graph");
         return (
             <Graph graph={graph} options={this.options}  events={this.events}/>
         );
