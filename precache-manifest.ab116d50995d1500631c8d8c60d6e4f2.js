@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "b1057b334a852607bc0d2577689d5125",
+    "revision": "65a61b522a37e0441f99e9d1cdd9c35d",
     "url": "/vishypergraph/index.html"
   },
   {
-    "revision": "f8a14c1a81444a652f13",
+    "revision": "28bc4714a85d3a8e3235",
     "url": "/vishypergraph/static/css/main.19393e92.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/vishypergraph/static/js/2.504d6762.chunk.js"
   },
   {
-    "revision": "f8a14c1a81444a652f13",
-    "url": "/vishypergraph/static/js/main.83c4f376.chunk.js"
+    "revision": "28bc4714a85d3a8e3235",
+    "url": "/vishypergraph/static/js/main.127d8fde.chunk.js"
   },
   {
     "revision": "0f7c16d2f73bcf5cd26e",
