@@ -117,7 +117,7 @@ export class App extends Component<Readonly<{}>, AppState> {
     else if (Array.isArray(sources))
       sources = sources.map(App.extractId);
     else sources = [App.extractId(sources)];
-    if (eType === "type") return new HyperEdge(eType, sources, false);
+    if (["type", "spacecomplex", "timecomplex"].includes(eType)) return new HyperEdge(eType, sources, false);
     return new HyperEdge(eType, target.concat(sources));
   }
 
